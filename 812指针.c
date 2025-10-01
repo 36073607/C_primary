@@ -493,6 +493,7 @@ int main()
 }
 
 //C.通过使用指针创建二维数组
+//创建指针数组的方式最好
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -501,11 +502,15 @@ int main() {
     
     // 分配指针数组
     int **arr = (int **)malloc(rows * sizeof(int *));
+	//这一步只分配了一个指针数组，也就是可以存放rows个int *（指向int的指针）的空间。
+    //你可以把它理解成一排空的“抽屉”，每个抽屉能装一个int *（指向一行的指针），但里面还没有真正存数据的空间。
     
     // 为每一行分配内存
     for(int i = 0; i < rows; i++) {
         arr[i] = (int *)malloc(cols * sizeof(int));
     }
+	//这一步为每一行分配实际存储数据的空间，每一行有cols个int。
+    //也就是说，每个arr[i]现在都指向一个能存放cols个int的数组。
     
     // 初始化数组
     for(int i = 0; i < rows; i++) {
@@ -513,7 +518,7 @@ int main() {
             arr[i][j] = i * cols + j;  // 示例值
         }
     }
-    
+   
     // 使用数组
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < cols; j++) {
@@ -530,6 +535,7 @@ int main() {
     
     return 0;
 }
+
 
 
 
