@@ -272,14 +272,13 @@ int main()
 #include <math.h>//别忘了头文件
 int prime(int a)
 {
-	int j = 0;
-
-	for (j = 2; j <= sqrt(a); j++)
+	if(a==1)
+		return 0;
+	for (int j = 2; j <= sqrt(a); j++)
 	{
 		if (a % j == 0)
 		{
 			return 0;
-			break;
 		}
 	}
 
@@ -800,3 +799,4 @@ int main()
 }
 
 //总结：先用递归尝试，若写出来后没有明显缺陷（速率低下、栈溢出等），则用递归；否则用迭代。
+
