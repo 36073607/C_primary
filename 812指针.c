@@ -646,9 +646,11 @@ int main()
 	for (int i = 0; i < 3; i++)
 	{
 		cout << (*pc)[i](array, 3) << "\t" << *(*pc)[i](array, 3) << endl;
+		//cout << (*((*pc)[i]))(array, 3) << "\t" << *(*((*pc)[i]))(array, 3) << endl;
 	}
 
 	return 0;
 }
+
 
 
