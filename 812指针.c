@@ -536,6 +536,17 @@ int main() {
     return 0;
 }
 
+//附：
+void judge(vector<vector<int>>* arr, int length)
+{
+	for (int i = 0; i < length / 2; i++)
+	{
+		for (int j = 0; j < length / 2; j++)
+		{
+			(*arr)[i][j] = 0;//注意
+		}
+	}
+}
 
 
 
@@ -651,6 +662,7 @@ int main()
 
 	return 0;
 }
+
 
 
 
