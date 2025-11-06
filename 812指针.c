@@ -547,7 +547,12 @@ void judge(vector<vector<int>>* arr, int length)
 		}
 	}
 }
-
+//arr 的类型是 vector<vector<int>>，这是一个二维向量对象，不是指针。
+//在C++中：
+//vector<vector<int>> 是一个包含整数向量的向量（二维动态数组）
+//它不是指针类型
+//它不是二级指针（int**）
+//如果你想要获取指向这个二维向量的指针，你需要使用 &arr，这会得到一个 vector<vector<int>>* 类型的指针。
 
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -662,6 +667,7 @@ int main()
 
 	return 0;
 }
+
 
 
 
