@@ -670,5 +670,124 @@ int main()
 
 
 
+//二维数组作为函数参数
+#include <stdio.h>
+ 
+#define ROW 2   //二维数组的行数
+#define COL 2   //二维数组的列数
+ 
+//4个版本的求和函数
+//方式一：数组形式
+int TwoDimArraySum1(int twoDimAr[][COL], int row, int col);
+ 
+//方式二：指针形式，prArray是一个指向包含COL个int的数组的指针
+int TwoDimArraySum2(int (*prArray)[COL], int row, int col);
+ 
+//方式三：指针形式，pr是一个指向int的指针
+int TwoDimArraySum3(int *pr, int row, int col);
+ 
+//方式四：变长数组（C99开始支持）
+int TwoDimArraySum4(int row, int col, int twoDimAr[row][col]);
+ 
+int main(void)
+{
+    int twoDimArray[ROW][COL] = {{-2, 5}, {4, 9}};
+    int result;
+ 
+    //方式一
+    result = TwoDimArraySum1(twoDimArray, ROW, COL);
+    printf("Sum1函数结果：%d\n", result);
+ 
+    //方式二
+    result = TwoDimArraySum2(twoDimArray, ROW, COL);
+    printf("Sum2函数结果：%d\n", result);
+ 
+    //方式三
+    result = TwoDimArraySum3(twoDimArray[0], ROW, COL);
+    printf("Sum3函数结果：%d\n", result);
+ 
+    //方式四
+    result = TwoDimArraySum4(ROW, COL, twoDimArray);
+    printf("Sum4函数结果：%d\n", result);
+ 
+    return 0;
+}
+ 
+int TwoDimArraySum1(int twoDimAr[][COL], int row, int col)
+{
+    int i, j;
+    int result = 0;
+ 
+    for (i = 0; i < row; i++)
+    {
+        for (j = 0; j < col; j++)
+        {
+            //下面两种寻址方式都行
+            result += twoDimAr[i][j];
+            // result += *(*(twoDimAr + i) + j);
+        }
+    }
+    return result;
+}
+ 
+int TwoDimArraySum2(int (*prArray)[COL], int row, int col)
+{
+    int i, j;
+    int result = 0;
+ 
+    for (i = 0; i < row; i++)
+    {
+        for (j = 0; j < col; j++)
+        {
+            //下面两种寻址方式都行
+            result += prArray[i][j];
+            // result += *(*(prArray + i) + j);
+        }
+    }
+    return result;
+}
+ 
+int TwoDimArraySum3(int *pr, int row, int col)
+{
+    int i, j;
+    int result = 0;
+ 
+    for (i = 0; i < row; i++)
+    {
+        for (j = 0; j < col; j++)
+        {
+            //下面两种寻址方式都行
+            result += pr[i*col + j];
+            // result += *(pr + i*col + j);
+        }
+    }
+    return result;
+}
+ 
+int TwoDimArraySum4(int row, int col, int twoDimAr[row][col])
+{
+   int i, j;
+   int result = 0;
+ 
+   for (int i = 0; i < row; i++)
+   {
+       for (int j = 0; j < col; j++)
+       {
+           //下面两种寻址方式都行
+           result += twoDimAr[i][j];
+           // result += *(*(twoDimAr + i) + j);
+       }
+   }
+   return result;
+}
 
+//优缺点评价
+//这里先给出结论，最推荐使用方式3。下面是简要的分析。
 
+//方式1和方式2实质上是相同的。它们适用性很好。但是，它们定义必须事先给出第二维的长度，即不是对任意大小的二维数组都适用。
+//方式3适用性同样很好，对任意大小的二维数组都适用。但是，它是最难理解的。理解它需要对二维数组元素的结构、二维数组元素的储存以及二维数组与指针的关系有比较深刻的理解。
+//方式4是最容易理解的了。但是，它的适用性最差。
+
+//关于更高维数组
+//对于更高维的数组，上面四种方式仍然适用。除了方式3外，另外三种方式都很容易扩展成更高维的。
+//对于方式3，虽然最推荐它，但是它随着维数的增多，它变得更复杂更难理解。而且基于方式3，还可以延伸出其他方式。这里以三维数组举例，方式3还可以延伸出这样一种方式，该方式中接受三维数组的形参是一个指向一维数组的指针。对于这种由方式3延伸的方式，我是不推荐的，它比方式3更复杂，使用它还不如使用方式3。
