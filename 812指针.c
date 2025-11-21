@@ -797,3 +797,74 @@ int TwoDimArraySum4(int row, int col, int twoDimAr[row][col])
 //数组指针：a pointer to an array,即指向数组的指针
 //int* a[3]  指针数组，定义了一个数组，数组大小为3，数组a中的元素都为指针
 //int (*a)[3]  数组指针，定义了一个指针，指向列大小为3的数组
+
+
+
+
+
+//数组指针和二级指针在C语言中是两个不同的概念，尽管它们在某些用法上可能看起来相似，但它们的本质和用途是不同的。
+
+//数组指针
+数组指针是用来存储数组的地址的指针。它指向的是整个数组的地址，而不是数组中某个元素的地址。例如，假设有一个数组 int arr[5]，那么 int (*p)[5] = &arr 就是一个数组指针，p 存储的是数组 arr 的地址。对 p 解引用一次得到的是数组的首地址，而不是数组的首元素的值。
+#include <stdio.h>
+int main() 
+{
+int arr[5] = {1, 2, 3, 4, 5};
+int (*p)[5] = &arr;
+
+printf("数组首地址: %p\n", p);
+printf("数组首元素地址: %p\n", *p);
+printf("数组首元素值: %d\n", **p);
+
+return 0;
+}
+
+//二级指针
+//二级指针是指向另一个指针的指针。它存储的是指针的地址，而不是直接存储变量的地址。例如，假设有一个整型变量 int a = 10，那么 int *p = &a 是一个一级指针，int **q = &p 就是一个二级指针。
+#include <stdio.h>
+int main() 
+{
+int a = 10;
+int *p = &a;
+int **q = &p;
+
+printf("变量a的值: %d\n", a);
+printf("一级指针p指向的值: %d\n", *p);
+printf("二级指针q指向的值: %d\n", **q);
+
+return 0;
+}
+
+//总结一下：
+//就是我觉得数组指针和二级指针用法相同但是本质不同。
+//二级指针存储的是一个变量的地址的地址；
+//而数组指针存储的是数组的地址，对应关系上只是一个一级指针，但是由于数组中有多个元素，并且每个元素有自己对应的地址，要访问就必须先拿到首元素的地址，然后再进行访问，这是由于数组的特殊性导致的。
+
+
+
+//C语言数组名在函数传参时的自动类型转换
+//1.类型分析
+int twoDimArray[ROW][COL];  // 二维数组
+// 在函数传参时：
+twoDimArray    // 自动转换为 int (*)[COL] 类型（指向包含COL个int的数组的指针）
+&twoDimArray   // 类型是 int (*)[ROW][COL]（指向整个二维数组的指针）
+
+//2. 函数参数匹配
+int TwoDimArraySum1(int twoDimAr[][COL], int row, int col);
+// 等价于：
+int TwoDimArraySum1(int (*twoDimAr)[COL], int row, int col);
+
+
+//函数期望的是 int (*)[COL] 类型的参数，而：
+//twoDimArray 会自动转换为 int (*)[COL] ✅ 匹配
+//&twoDimArray 是 int (*)[ROW][COL] ❌ 不匹配
+
+
+3. 总结规则
+一维数组：arr 退化为 int*
+二维数组：arr 退化为 int (*)[COL]（指向行数组的指针）
+在函数参数中，数组名会自动转换为指向其首元素的指针
+这就是为什么传递 twoDimArray 而不是 &twoDimArray 的原因
+
+
+
